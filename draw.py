@@ -2,13 +2,48 @@ from display import *
 from matrix import *
 import math
 
-def add_box( points, x, y, z, width, height, depth ):
+def add_polygon( points, x0, y0, z0, x1, y1, z1, x2, y2, z2 ):
+    #basically only adding triangles
+    #done but not tested
+    add_point(points, x0, y0, z0)
+    add_point(points, x1, y1, z1)
+    add_point(points, x2, y2, z2)
+
+def draw_polygons( points, screen, color ):
+    #go through matrix 3 points at a time, draw triangles
+    #done but not tested
+    if len(matrix) < 3:
+        print 'Need at least 3 points to draw'
+        return
+
+    point = 0
+    while point < len(matrix) - 1:
+        draw_line( int(matrix[point][0]),
+                   int(matrix[point][1]),
+                   int(matrix[point+1][0]),
+                   int(matrix[point+1][1]),
+                   screen, color)
+        draw_line( int(matrix[point+1][0]),
+                   int(matrix[point+1][1]),
+                   int(matrix[point+2][0]),
+                   int(matrix[point+2][1]),
+                   screen, color)
+        draw_line( int(matrix[point+2][0]),
+                   int(matrix[point+2][1]),
+                   int(matrix[point][0]),
+                   int(matrix[point][1]),
+                   screen, color)
+        point += 3
+
+def add_box( edges, x, y, z, width, height, depth ):
+    #modify to add triangles instead
+
     #front bottom
     add_edge(edges, x,y,z, x + width, y, z)
     #front leftside
     add_edge(edges, x,y,z, x, y+ height, z)
     #front rightside
-    add_edge(edges, x + width,y, z, x, y + height, z)
+    add_edge(edges, x + width,y, z, x + width, y + height, z)
     #front top
     add_edge(edges, x,y + height,z, x + width, y + height, z)
     #back bottom
@@ -29,17 +64,45 @@ def add_box( points, x, y, z, width, height, depth ):
     add_edge(edges, x + width,y,z, x + width, y, z - depth)
 
 def add_sphere( points, cx, cy, cz, r, step ):
-    #adds the sphere edges (not connecting points to each other, but rather to another point 1 unit away)
-    sphere = generate_sphere(points, cx, cy, cz, r, step)
+    #add triangles instead of edges
 
-def generate_sphere( points, cx, cy, cz, r, step ):
-    #return a matrix of points
+    #adds the sphere edges (not connecting points to each other, but rather to another point 1 unit away)
+    pointlist = generate_sphere(cx, cy, cz, r, step)
+    for point in pointlist:
+        add_edge(points, point[0], point[1], point[2],
+        point[0] + 1, point[1] + 1, point[2] + 1)
+
+def generate_sphere(cx, cy, cz, r, step ):
+    final = []
+    for i in range(step + 1):
+        phi = (i / float(step)) * math.pi * 2
+        for j in range(step + 1):
+            theta = (j / float(step)) * math.pi
+            x = r * math.cos(theta) + cx
+            y = r * math.sin(theta) * math.cos(phi) + cy
+            z = r * math.sin(theta) * math.sin(phi) + cz
+            add_point(final, x, y, z)
+    return final
 
 def add_torus( points, cx, cy, cz, r0, r1, step ):
-    tor = generate_torus(points, cx, cy, cz, r0, r1, step)
+    #add triangles instead of edges
 
-def generate_torus( points, cx, cy, cz, r0, r1, step ):
-    #returns a matrix of points
+    pointlist = generate_torus(cx, cy, cz, r0, r1, step)
+    for point in pointlist:
+        add_edge(points, point[0], point[1], point[2],
+        point[0] + 1, point[1] + 1, point[2] + 1)
+
+def generate_torus(cx, cy, cz, r0, r1, step ):
+    final = []
+    for i in range(step + 1):
+        phi = (i / float(step)) * math.pi * 2
+        for j in range(step + 1):
+            theta = (j / float(step)) * math.pi * 2
+            x = (r0 * math.cos(theta) + r1) * math.cos(phi) + cx
+            y = r0 * math.sin(theta) + cy
+            z = (r0 * math.cos(theta) + r1) * math.sin(phi) + cz
+            add_point(final, x, y, z)
+    return final
 
 def add_circle( points, cx, cy, cz, r, step ):
     #print 'add_circle'

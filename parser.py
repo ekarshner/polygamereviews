@@ -38,7 +38,7 @@ The file follows the following format:
 
 See the file script for an example of the file format
 """
-ARG_COMMANDS = [ 'line', 'scale', 'move', 'rotate', 'save', 'circle', 'hermite', 'bezier' ]
+ARG_COMMANDS = [ 'line', 'scale', 'move', 'rotate', 'save', 'circle', 'hermite', 'bezier', 'box', 'sphere', 'torus' ]
 
 def parse_file( fname, edges, transform, screen, color ):
 
@@ -101,11 +101,13 @@ def parse_file( fname, edges, transform, screen, color ):
                           0.01,'bezier')
 
         elif line == 'box':
-            add_box( points, float(args[0]), float(args[1]), float(args[2]), float(args[3]), float(args[4]), float(args[5]))
+            add_box( edges, float(args[0]), float(args[1]), float(args[2]), float(args[3]), float(args[4]), float(args[5]))
 
         elif line == 'sphere':
+            add_sphere(edges, float(args[0]), float(args[1]), float(args[2]), float(args[3]), 100)
 
         elif line == 'torus':
+            add_torus(edges, float(args[0]), float(args[1]), float(args[2]), float(args[3]), float(args[4]), 100)
 
         elif line == 'ident':
             ident(transform)
