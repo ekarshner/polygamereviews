@@ -39,29 +39,56 @@ def add_box( edges, x, y, z, width, height, depth ):
     #modify to add triangles instead
 
     #front bottom
-    add_edge(edges, x,y,z, x + width, y, z)
+    #add_edge(edges, x,y,z, x + width, y, z)
     #front leftside
-    add_edge(edges, x,y,z, x, y+ height, z)
+    #add_edge(edges, x,y,z, x, y+ height, z)
+    add_polygon(edges, x,y,z, x + width, y, z, x, y+ height, z)
+
     #front rightside
-    add_edge(edges, x + width,y, z, x + width, y + height, z)
+    #add_edge(edges, x + width,y, z, x + width, y + height, z)
     #front top
-    add_edge(edges, x,y + height,z, x + width, y + height, z)
+    #add_edge(edges, x,y + height,z, x + width, y + height, z)
+    add_polygon(edges, x + width, y, z, x + width, y + height, z, x, y + height, z)
+
     #back bottom
-    add_edge(edges, x,y,z - depth, x + width, y, z- depth)
+    #add_edge(edges, x,y,z - depth, x + width, y, z- depth)
     #back leftside
-    add_edge(edges, x, y, z - depth, x, y + height, z - depth)
+    #add_edge(edges, x, y, z - depth, x, y + height, z - depth)
+    add_polygon(edges, x, y, z-depth, x + width, y, z- depth, x, y + height, z - depth)
+
     #back rightside
-    add_edge(edges, x + width,y, z - depth, x + width, y + height, z- depth)
+    #add_edge(edges, x + width,y, z - depth, x + width, y + height, z- depth)
     #back top
-    add_edge(edges, x,y + height,z - depth, x + width, y + height, z - depth)
+    #add_edge(edges, x,y + height,z - depth, x + width, y + height, z - depth)
+    add_polygon(edges, x + width, y, z- depth, x + width, y + height, z -depth, x, y + height, z -depth)
+
     #center upperleft
-    add_edge(edges, x,y + height,z, x, y + height, z - depth)
+    #add_edge(edges, x,y + height,z, x, y + height, z - depth)
     #center upperright
-    add_edge(edges, x + width,y + height,z, x + width, y + height, z - depth)
+    #add_edge(edges, x + width,y + height,z, x + width, y + height, z - depth)
+
+    #center upperleft and front top
+    add_polygon(edges, x, y + height, z, x, y + height, z-depth, x + width, y + height, z)
+
+    #center upperright and back top
+    add_polygon(edges, x + width, y + height, z, x + width, y + height, z - depth, x, y + height, z - depth)
+
     #center bottomleft
-    add_edge(edges, x,y,z, x, y, z - depth)
+    #add_edge(edges, x,y,z, x, y, z - depth)
     #center bottomright
-    add_edge(edges, x + width,y,z, x + width, y, z - depth)
+    #add_edge(edges, x + width,y,z, x + width, y, z - depth)
+
+    #center lowerleft and front bottom
+    add_polygon(edges, x, y, z, x + width, y, z, x, y, z - depth)
+
+    #center lowerright and back bottom
+    add_polygon(edges, x + width, y, z, x + width, y, z - depth, x, y,z)
+
+    #center lowerleft and back leftside
+    add_polygon(edges, x, y, z, x, y, z - depth, x, y + height, z - depth)
+
+    #center lowerright and back rightside
+    add_polygon()
 
 def add_sphere( points, cx, cy, cz, r, step ):
     #add triangles instead of edges
