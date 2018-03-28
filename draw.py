@@ -37,6 +37,7 @@ def draw_polygons( points, screen, color ):
 
 def add_box( edges, x, y, z, width, height, depth ):
     #modify to add triangles instead
+    #done but not tested
 
     #front bottom
     #add_edge(edges, x,y,z, x + width, y, z)
@@ -88,7 +89,7 @@ def add_box( edges, x, y, z, width, height, depth ):
     add_polygon(edges, x, y, z, x, y, z - depth, x, y + height, z - depth)
 
     #center lowerright and back rightside
-    add_polygon()
+    add_polygon(edges, x + width, y, z, x + width, y + height, z - depth, x + width, y, z - depth)
 
 def add_sphere( points, cx, cy, cz, r, step ):
     #add triangles instead of edges
