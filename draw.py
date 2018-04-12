@@ -65,11 +65,42 @@ def add_box( edges, x, y, z, width, height, depth ):
 def add_sphere( points, cx, cy, cz, r, step ):
     #add triangles instead of edges
 
-    #adds the sphere edges (not connecting points to each other, but rather to another point 1 unit away)
     pointlist = generate_sphere(cx, cy, cz, r, step)
-    for point in pointlist:
-        add_edge(points, point[0], point[1], point[2],
-        point[0] + 1, point[1] + 1, point[2] + 1)
+    #for point in pointlist:
+
+    end = step
+    step += 1
+    i = 0
+    poly_top = 0
+    for lat in range(end):
+        for longt in range(end):
+            i = lat * step + longt
+            if (lat == step - 2):
+                poly_top = longt
+            else:
+                poly_top = (lat + 1) * step + longt
+                poly_bot = poly_top + 1
+                add_polygon(points,
+                    pointlist[i][0],
+                    pointlist[i][1],
+                    pointlist[i][2],
+                    pointlist[i + 1][0],
+                    pointlist[i + 1][1],
+                    pointlist[i + 1][2],
+                    pointlist[poly_top][0],
+                    pointlist[poly_top][1],
+                    pointlist[poly_top][2])
+            if not longt == 0 or not longt == step - 2:
+                add_polygon(points,
+                    pointlist[poly_top][0],
+                    pointlist[poly_top][1],
+                    pointlist[poly_top][2],
+                    pointlist[i + 1][0],
+                    pointlist[i + 1][1],
+                    pointlist[i + 1][2],
+                    pointlist[poly_bot][0],
+                    pointlist[poly_bot][1],
+                    pointlist[poly_bot][2])
 
 def generate_sphere(cx, cy, cz, r, step ):
     final = []
@@ -83,13 +114,13 @@ def generate_sphere(cx, cy, cz, r, step ):
             add_point(final, x, y, z)
     return final
 
-def add_torus( points, cx, cy, cz, r0, r1, step ):
+#def add_torus(points, cx, cy, cz, r0, r1, step ):
     #add triangles instead of edges
 
-    pointlist = generate_torus(cx, cy, cz, r0, r1, step)
-    for point in pointlist:
-        add_edge(points, point[0], point[1], point[2],
-        point[0] + 1, point[1] + 1, point[2] + 1)
+    #pointlist = generate_torus(cx, cy, cz, r0, r1, step)
+    #for point in pointlist:
+        #add_edge(points, point[0], point[1], point[2],
+        #point[0] + 1, point[1] + 1, point[2] + 1)
 
 def generate_torus(cx, cy, cz, r0, r1, step ):
     final = []
