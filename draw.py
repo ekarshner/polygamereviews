@@ -126,7 +126,6 @@ def add_torus(points, cx, cy, cz, r0, r1, step ):
     while start<step:
         pol = 0
 	       while pol < step:
-               loc =
 	              add_polygon(edges,
                         points[(start*step+pol)%len(points)][0],
                         points[(start*step+pol)%len(points)][1],
