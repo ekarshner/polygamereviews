@@ -114,13 +114,43 @@ def generate_sphere(cx, cy, cz, r, step ):
             add_point(final, x, y, z)
     return final
 
-#def add_torus(points, cx, cy, cz, r0, r1, step ):
+def add_torus(points, cx, cy, cz, r0, r1, step ):
     #add triangles instead of edges
 
     #pointlist = generate_torus(cx, cy, cz, r0, r1, step)
     #for point in pointlist:
         #add_edge(points, point[0], point[1], point[2],
         #point[0] + 1, point[1] + 1, point[2] + 1)
+    points = generate_torus(cx, cy, cz, r0, r1, step)
+    start = 0
+    while start<step:
+        pol = 0
+	       while pol < step:
+               loc =
+	              add_polygon(edges,
+                        points[(start*step+pol)%len(points)][0],
+                        points[(start*step+pol)%len(points)][1],
+			            points[(start*step+pol)%len(points)][2],
+                        points[(start*step+pol+1)%len(points)][0],
+			            points[(start*step+pol+1)%len(points)][1],
+                        points[(start*step+pol+1)%len(points)][2],
+			            points[(start*step+pol+step)%len(points)][0],
+			            points[(start*step+pol+step)%len(points)][1],
+                        points[(start*step+pol+step)%len(points)][2])
+	               add_polygon(edges,
+                        points[(start*step+pol+step)%len(points)][0],
+                        points[(start*step+pol+step)%len(points)][1],
+			            points[(start*step+pol+step)%len(points)][2],
+                        points[(start*step+pol+1)%len(points)][0],
+			            points[(start*step+pol+1)%len(points)][1],
+                        points[(start*step+pol+1)%len(points)][2],
+			            points[(start*step+pol+1+step)%len(points)][0],
+                        points[(start*step+pol+1+step)%len(points)][1],
+			            points[(start*step+pol+1+step)%len(points)][2])
+	               pol += 1
+        start += 1
+
+
 
 def generate_torus(cx, cy, cz, r0, r1, step ):
     final = []
